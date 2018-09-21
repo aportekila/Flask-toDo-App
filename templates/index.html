@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>ToDo App</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    </head>
+<body>
+
+    <div style="margin-top: 150px;" class="container">
+        <h3>ToDo List</h3>
+        <hr>
+        <form action="/add" method="POST">
+            <div class="form-group">
+                    <label for="title">Title</label>
+                    <input type="text" name="title" class="form-control"  placeholder="Title">
+                  </div>
+                  <div class="form-group">
+                    <label for="content">to Do</label>
+                    <textarea type="text" name="content" class="form-control" placeholder="to Do"></textarea>
+            </div>
+            <button type="submit" class="btn btn-danger" onclick="return add()">Add</button>
+        </form>
+        <br>
+        <table class="table">
+            {% if todos==[] %}
+                <div class="alert alert-warning" role="alert">
+                    to Do list is empty
+                </div>
+            {% else%}
+                <thead>
+                        <tr>
+                        <th scope="col">Id</th>
+                        <th scope="col">Title</th>
+                        <th scope="col">To Do</th>
+                        <th scope="col">State</th>
+                        <th scope="col">Update</th>
+                        <th scope="col">Delete</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for todo in todos %}
+                            <tr>
+                                <th scope="row">{{ todo.id}}</th>
+                                <td>{{ todo.title}}</td>
+                                <td>{{ todo.content}}</td>
+                                {% if todo.coplete %}
+                                <td>Completed</td>
+                                {% else %}
+                                <td>UnCompleted</td>{% endif %}
+                                {% if todo.coplete %}
+                                    <td><a href="/complete/{{ todo.id}}" class="btn btn-warning">UnComplete</a></td>
+                                {% else %}
+                                    <td><a href="/complete/{{ todo.id}}" class="btn btn-info">Complete</a></td>
+                                {% endif %}
+                                
+                                
+                                <td><a href="/delete/{{ todo.id}}" class="btn btn-danger">Delete</a></td>
+                            </tr>
+                        {% endfor %}
+                        
+                        
+                    </tbody>
+                </table>
+            
+            {% endif %}
+            
+                
+
+    </div>
+
+
+    <script>
+        function add(){
+            if(document.getElementsByName("title")[0].value==""){
+                document.getElementsByName("title")[0].setAttribute("class", "form-control is-invalid")
+                return false;
+            }
+            else{
+                document.getElementsByName("title")[0].setAttribute("class", "form-control is-valid")
+            }
+            if(document.getElementsByName("content")[0].value==""){
+                document.getElementsByName("content")[0].setAttribute("class", "form-control is-invalid")
+                return false;
+            }
+            else{
+                document.getElementsByName("content")[0].setAttribute("class", "form-control is-valid")
+            }
+            return true;
+          
+        }
+    </script>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+</body>
+</html>
